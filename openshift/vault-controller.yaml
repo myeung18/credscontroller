@@ -14,7 +14,7 @@ spec:
   selector:
     app: vault-controller
 ---
-apiVersion: v1
+apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   name: vault-controller
