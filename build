@@ -2,8 +2,10 @@
 
 set -e
 
-GOOS=linux go build \
-  -a --ldflags '-extldflags "-static"' \
-  -tags netgo \
-  -installsuffix netgo \
-  -o credscontroller  .
+#GOOS=linux go build \
+#  -a --ldflags '-extldflags "-static"' \
+#  -tags netgo \
+#  -installsuffix netgo \
+#  -o credscontroller  .
+
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o credscontroller ./main.go

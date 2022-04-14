@@ -105,7 +105,10 @@ func tokenRequestHandler(w io.Writer, r *http.Request) (int, error) {
 	}
 
 	var initContainers []kapi.Container
-	err = json.Unmarshal([]byte(pod.Annotations["pod.alpha.kubernetes.io/init-containers"]), &initContainers)
+	//annoa := pod.Annotations["pod.beta.kubernetes.io/init-containers"]
+	annoa := pod.Annotations["pod/init-containers"]
+	log.Printf("Container Port in Init Container: %s", annoa)
+	err = json.Unmarshal([]byte(annoa), &initContainers)
 	if err != nil {
 		log.Fatalf("Failed to Unmarshall: %s", err)
 	}

@@ -38,69 +38,67 @@ spec:
       annotations:
         vaultproject.io/policies: default,spring-example
         vaultproject.io/ttl: "24h"
-        pod.beta.kubernetes.io/init-containers: '[
-          {
-            "name": "vault-init",
-            "image": "raffaelespazzoli/credscontroller:0.0.1",
-            "args": ["vault-init"],
-            "imagePullPolicy": "Always",
-            "ports" : [
-              {
-                "containerPort" : 8443,
-                "name" : "init-port",
-                "protocol" : "TCP"
-               }
-            ],
-            "env": [
-              {
-                "name": "POD_NAME",
-                "valueFrom": {"fieldRef": {"fieldPath": "metadata.name", "apiVersion": "v1"}}
-              },
-              {
-                "name": "POD_IP",
-                "valueFrom": {"fieldRef": {"fieldPath": "status.podIP", "apiVersion": "v1"}}
-              },              
-              {
-                "name": "POD_NAMESPACE",
-                "valueFrom": {"fieldRef": {"fieldPath": "metadata.namespace", "apiVersion": "v1"}}
-              },
-              {
-                "name": "VAULT_CACERT",
-                "value": "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
-              },                                           
-              {
-                "name": "VAULT_ADDR",
-                "value": "https://vault.vault-controller.svc.cluster.local:8200"
-              },
-              {
-                "name": "VAULT_CONTROLLER_ADDR",
-                "value": "https://vault-controller.vault-controller.svc.cluster.local:8443"
-              },
-              {
-                "name": "VAULT_CONTROLLER_CACERT",
-                "value": "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
-              },
-              {
-                "name": "VAULT_INIT_PORT",
-                "value": "8443"
-              },
-              {
-                "name": "LOG_LEVEL",
-                "value": "debug"
-              }                             
-            ],
-            "volumeMounts": [
-              {
-                "name": "vault-token",
-                "mountPath": "/var/run/secrets/vaultproject.io"
-              }
-            ]
-          }
-        ]'        
+        pod/init-containers: |
+          [{
+          "name": "vault-init",
+          "image": "quay.io/myeung/credscontroller:0.0.1",
+          "args": ["vault-init"],
+          "imagePullPolicy": "Always",
+          "ports" : [
+            {
+              "containerPort" : 8443,
+              "name" : "init-port",
+              "protocol" : "TCP"
+             }
+          ],
+          "env": [
+            {
+              "name": "POD_NAME",
+              "valueFrom": {"fieldRef": {"fieldPath": "metadata.name", "apiVersion": "v1"}}
+            },
+            {
+              "name": "POD_IP",
+              "valueFrom": {"fieldRef": {"fieldPath": "status.podIP", "apiVersion": "v1"}}
+            },
+            {
+              "name": "POD_NAMESPACE",
+              "valueFrom": {"fieldRef": {"fieldPath": "metadata.namespace", "apiVersion": "v1"}}
+            },
+            {
+              "name": "VAULT_CACERT",
+              "value": "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
+            },
+            {
+              "name": "VAULT_ADDR",
+              "value": "https://vault.vault-controller.svc.cluster.local:8200"
+            },
+            {
+              "name": "VAULT_CONTROLLER_ADDR",
+              "value": "https://vault-controller.vault-controller.svc.cluster.local:8443"
+            },
+            {
+              "name": "VAULT_CONTROLLER_CACERT",
+              "value": "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
+            },
+            {
+              "name": "VAULT_INIT_PORT",
+              "value": "8443"
+            },
+            {
+              "name": "LOG_LEVEL",
+              "value": "debug"
+            }
+          ],
+          "volumeMounts": [
+            {
+              "name": "vault-token",
+              "mountPath": "/var/run/secrets/vaultproject.io"
+            }]
+          }]
     spec:
-      init-containers:
+      initContainers:
         - name: vault-init
-          image: raffaelespazzoli/credscontroller:0.0.1
+          image: quay.io/myeung/credscontroller:0.0.1
           args:
             - vault-init
           imagePullPolicy: Always

@@ -114,7 +114,7 @@ func RunVaultController() {
 		log.Fatalln(http.ListenAndServeTLS(viper.GetString("vault-controller-addr"), viper.GetString("vault-controller-cert"), viper.GetString("vault-controller-key"), nil))
 	}()
 
-	log.Infoln("Listening for token requests.")
+	log.Infoln("Listening for token requests - new.")
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
